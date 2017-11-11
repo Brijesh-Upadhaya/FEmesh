@@ -1,0 +1,43 @@
+//------------Brijesh Upadhaya 7.11.2016 Applies to PM--------------//
+/* Variables that must be defined when including this file:
+   th,D1,D2,H,R1,Lc */
+   
+// Magnet upper-arc center
+XC1 = D1 * Cos(th) ;       
+YC1 = D1 * Sin(th) ;
+// Magnet lower-arc center
+XC2 = D2 * Cos(th) ;		
+YC2 = D2 * Sin(th) ;
+
+// Magnet right edge
+XM3 = D2 * Cos(th - RPM) ;	
+YM3 = D2 * Sin(th - RPM) ;
+XM4 = D1 * Cos(th - RPM) ;       
+YM4 = D1 * Sin(th - RPM) ;
+// Magnet left edge
+XM5 = D1 * Cos(th + RPM) ;	
+YM5 = D1 * Sin(th + RPM) ;
+XM6 = D2 * Cos(th + RPM) ;       
+YM6 = D2 * Sin(th + RPM) ;
+
+// Slot points
+p1 = newp ; Point(p1) = { XM3 , YM3, 0.0, 15*Lc} ;
+p2 = newp ; Point(p2) = { XM4 , YM4, 0.0, 3*Lc} ;
+p3 = newp ; Point(p3) = { XC1 , YC1, 0.0, 3*Lc} ;
+p4 = newp ; Point(p4) = { XM5 , YM5, 0.0, 3*Lc} ;
+p5 = newp ; Point(p5) = { XM6 , YM6, 0.0, 15*Lc} ;
+p6 = newp ; Point(p6) = { XC2 , YC2, 0.0, 15*Lc} ;
+
+
+// Slot lines and arcs
+lin1 = newreg ; Line(lin1)   = {p1,p2} ;
+arc1 = newreg ; Circle(arc1) = {p2,O2,p3} ;
+arc2 = newreg ; Circle(arc2) = {p3,O2,p4} ;
+lin2 = newreg ; Line(lin2)   = {p4,p5} ;
+arc3 = newreg ; Circle(arc3) = {p5,O2,p6} ;
+arc4 = newreg ; Circle(arc4) = {p6,O2,p1} ;
+
+// NdFeB Magnet region
+reg1 = newreg ; Line Loop(reg1) = {lin1,arc1,arc2,lin2,arc3,arc4};
+reg2 = idxR ; Plane Surface(reg2) = {reg1};
+

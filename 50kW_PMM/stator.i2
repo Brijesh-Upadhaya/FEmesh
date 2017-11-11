@@ -1,0 +1,73 @@
+//------------Brijesh Upadhaya 7.11.2016 Applies to stator slot--------------//
+/* Variables that must be defined when including this file:
+   th,D2,H,R1,E1,H1,H2,H3,O1 */
+   
+// Slot opening (points anti-clockwise)
+dtH = ArcSin(E2/2./D2) ;
+// First Point (p1)
+XP2 = D2 * Cos(th + dtH ) ;            
+YP2 = D2 * Sin(th + dtH ) ;
+// Second Point (p2)
+XP3 = D2 * Cos(th - dtH ) ;
+YP3 = D2 * Sin(th - dtH ) ;
+
+// Upper part of slot opening
+dtH1 = ArcSin(E2/2./(D2+H1)) ;
+// First Point (p1)
+XH4 = (D2+H1) * Cos(th + dtH1 ) ;            
+YH4 = (D2+H1) * Sin(th + dtH1 ) ;
+// Second Point (p2)
+XH5 = (D2+H1) * Cos(th - dtH1 ) ;
+YH5 = (D2+H1) * Sin(th - dtH1 ) ;
+
+dtH2 = ArcSin(E1/2./(D2+H1+H2)) ;
+// First Point (p1)
+XH6 = (D2+H1+H2) * Cos(th + dtH2 ) ;            
+YH6 = (D2+H1+H2) * Sin(th + dtH2 ) ;
+// Second Point (p2)
+XH7 = (D2+H1+H2) * Cos(th - dtH2 ) ;
+YH7 = (D2+H1+H2) * Sin(th - dtH2 ) ;
+
+// Slot Circle center 
+D1  = D2 + H ;
+XH2 = (D1 - R1) * Cos(th) ;	       
+YH2 = (D1 - R1) * Sin(th) ;
+// Slot Circle top
+XS1 = (D1) * Cos(th) ;		       
+YS1 = (D1) * Sin(th) ;
+// Adjacent points on the circle
+XT1 = XH2 + R1 * Cos(th + Pi / 2.0) ;
+YT1 = YH2 + R1 * Sin(th + Pi / 2.0) ;
+XT2 = XH2 + R1 * Cos(th - Pi / 2.0) ;
+YT2 = YH2 + R1 * Sin(th - Pi / 2.0) ;
+
+// All slot point coordinates
+p1 = newp ;  Point(p1) =  { XP3 , YP3, 0.0, Lc} ;
+p22 = newp ; Point(p22) = { XH5 , YH5, 0.0, 3*Lc} ;
+p33 = newp ; Point(p33) = { XH7 , YH7, 0.0, 3*Lc} ;
+p44 = newp ; Point(p44) = { XT2 , YT2, 0.0, 15*Lc} ;
+p55 = newp ; Point(p55) = { XH2 , YH2, 0.0, 15*Lc} ;
+p66 = newp ; Point(p66) = { XT1 , YT1, 0.0, 15*Lc} ;
+p77 = newp ; Point(p77) = { XH6 , YH6, 0.0, 3*Lc} ;
+p88 = newp ; Point(p88) = { XH4 , YH4, 0.0, 3*Lc} ;
+p9 = newp  ; Point(p9)  = { XP2 , YP2, 0.0, Lc} ;
+p10 = newp ; Point(p10) = { XS1 , YS1, 0.0, 15*Lc} ;
+
+// Line and arc of the slot
+lin1 = newreg ; Line(lin1) = {p1, p22} ;
+lin2 = newreg ; Line(lin2) = {p22, p33} ;
+lin3 = newreg ; Line(lin3) = {p33, p44} ;
+arc1 = newreg ; Circle(arc1) = {p44, p55, p10} ;
+arc2 = newreg ; Circle(arc2) = {p10, p55, p66} ;
+lin4 = newreg ; Line(lin4) = {p66, p77} ;
+lin5 = newreg ; Line(lin5) = {p77, p88} ;
+lin6 = newreg ; Line(lin6) = {p88, p9} ;
+lin7 = newreg ; Line(lin7) = {p77, p33} ;
+arc3 = newreg ; Circle(arc3) = {p1, O1, p9};
+
+// Copper conductor region in the slot
+reg1 = newreg ; Line Loop(reg1) = {lin3,arc1,arc2,lin4,lin7} ;
+// Air region below conductor in the slot opening
+reg2 = newreg ; Line Loop(reg2) = {lin1,lin2,-lin7,lin5,lin6,-arc3} ;
+reg3 = newreg ; Plane Surface(reg3) = {reg1} ; 
+reg4 = newreg ; Plane Surface(reg4) = {reg2} ;
