@@ -1,0 +1,99 @@
+/*------------Brijesh Upadhaya 7.11.2016 Applies to slot shape--------------*/
+/* Variables that must be defined when including this file:
+   th,D1,D2,H,R1,R2,R3,Lc */
+   
+// Sup. circle center
+XC1 = (D1 - R1) * Cos(th) ;       
+YC1 = (D1 - R1) * Sin(th) ;
+// Inf. circle center
+XC2 = (D1 - H + R2) * Cos(th) ;		
+YC2 = (D1 - H + R2) * Sin(th) ;
+// Mid. circle center
+XC3 = (D2 - R3) * Cos(th) ;       
+YC3 = (D2 - R3) * Sin(th) ;
+
+// Sup. circle top
+XS1 = (D1) * Cos(th) ;		        
+YS1 = (D1) * Sin(th) ;
+// Inf. circle buttom
+XS2 = (D1-H) * Cos(th) ;		        
+YS2 = (D1-H) * Sin(th) ;
+// Mid. circle top
+XS3 = (D2) * Cos(th) ;		        
+YS3 = (D2) * Sin(th) ;
+
+// dth = Pi - ArcCos((R1 - R2) / (H - R1 - R2)) ;
+// Tangent points on the circle
+// Sup. right tangency point
+XA1 = XC1 + R1 * Cos(th - Pi / 2.0) ;	
+YA1 = YC1 + R1 * Sin(th - Pi / 2.0) ;
+// Inf. right tangency point
+XA2 = XC2 + R2 * Cos(th - Pi / 2.0) ;	
+YA2 = YC2 + R2 * Sin(th - Pi / 2.0) ;
+// Mid. right tangency point
+XA3 = XC3 + R3 * Cos(th - Pi / 2.0) ;	
+YA3 = YC3 + R3 * Sin(th - Pi / 2.0) ;
+// Sup. left tangency point
+XB1 = XC1 + R1 * Cos(th + Pi / 2.0) ; 
+YB1 = YC1 + R1 * Sin(th + Pi / 2.0) ;
+// Inf. left tangency point
+XB2 = XC2 + R2 * Cos(th + Pi / 2.0) ;	
+YB2 = YC2 + R2 * Sin(th + Pi / 2.0) ;
+// Mid. left tangency point
+XB3 = XC3 + R3 * Cos(th + Pi / 2.0) ;	
+YB3 = YC3 + R3 * Sin(th + Pi / 2.0) ;
+
+// Points at rectangular slot portion
+dth1 = Pi - ArcSin(R2/R1);
+dth2 = ArcSin(R2/R3);
+// Sup. right point
+XA4 = XC1 + R1 * Cos(th - dth1) ;	
+YA4 = YC1 + R1 * Sin(th - dth1) ;
+// Mid. right point
+XA5 = XC3 + R3 * Cos(th - dth2) ;	
+YA5 = YC3 + R3 * Sin(th - dth2) ;
+// Sup. left point
+XA6 = XC1 + R1 * Cos(th + dth1) ;	
+YA6 = YC1 + R1 * Sin(th + dth1) ;
+// Mid. left point
+XA7 = XC3 + R3 * Cos(th + dth2) ;	
+YA7 = YC3 + R3 * Sin(th + dth2) ;
+
+// Slot points
+p1 = newp ; Point(p1) = { XA2 , YA2, 0.0, 6*Lc} ;
+p2 = newp ; Point(p2) = { XA3 , YA3, 0.0, 15*Lc} ;
+p3 = newp ; Point(p3) = { XC3 , YC3, 0.0, 15*Lc} ;
+p4 = newp ; Point(p4) = { XA5 , YA5, 0.0, 15*Lc} ;
+p5 = newp ; Point(p5) = { XA4 , YA4, 0.0, 15*Lc} ;
+p6 = newp ; Point(p6) = { XC1 , YC1, 0.0, 15*Lc} ;
+p7 = newp ; Point(p7) = { XA1 , YA1, 0.0, 5*Lc} ;
+p8 = newp ; Point(p8) = { XB1 , YB1, 0.0, 5*Lc} ;
+p9 = newp ; Point(p9) = { XA6 , YA6, 0.0, 15*Lc} ;
+p10= newp ; Point(p10) = { XA7 , YA7, 0.0, 15*Lc} ;
+p11= newp ; Point(p11) = { XB3 , YB3, 0.0, 15*Lc} ;
+p12 = newp ; Point(p12) = { XB2 , YB2, 0.0, 6*Lc} ;
+p13 = newp ; Point(p13) = { XC2 , YC2, 0.0, 6*Lc} ;
+
+// Surface points of circles
+p14 = newp ; Point(p14) = { XS1 , YS1, 0.0, 1*Lc} ;
+p15 = newp ; Point(p15) = { XS3 , YS3, 0.0, 15*Lc} ;
+p16 = newp ; Point(p16) = { XS2 , YS2, 0.0, 6*Lc} ;
+
+// Slot lines and arcs
+lin1 = newreg ; Line(lin1)   = {p1,p2} ;
+arc1 = newreg ; Circle(arc1) = {p2,p3,p4} ;
+lin2 = newreg ; Line(lin2)   = {p4,p5} ;
+arc2 = newreg ; Circle(arc2) = {p5,p6,p7} ;
+arc3 = newreg ; Circle(arc3) = {p7,p6,p14} ;
+arc4 = newreg ; Circle(arc4) = {p14,p6,p8};
+arc5 = newreg ; Circle(arc5) = {p8,p6,p9};
+lin3 = newreg ; Line(lin3)   = {p9,p10} ;
+arc6 = newreg ; Circle(arc6) = {p10,p3,p11};
+lin4 = newreg ; Line(lin4)   = {p11,p12} ;
+arc7 = newreg ; Circle(arc7) = {p12,p13,p16};
+arc8 = newreg ; Circle(arc8) = {p16,p13,p1};
+
+// Slot region
+reg1 = newreg ; Line Loop(reg1) = {lin1,arc1,lin2,arc2,arc3,arc4,arc5,lin3,arc6,lin4,arc7,arc8};
+reg2 = idxR + i ; Plane Surface(reg2) = {reg1};
+

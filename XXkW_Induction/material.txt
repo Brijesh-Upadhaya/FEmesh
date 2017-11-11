@@ -1,0 +1,8 @@
+// Physical Surface
+Steel = 20;
+Rotor_FeSi = 21;
+Stator_FeSi = 22;
+Air = 23;
+Al = 24;
+Copper = 25;
+
