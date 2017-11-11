@@ -6,3 +6,8 @@ electrical machine. The [gmsh](http://gmsh.info/) .geo file can be used to mesh 
 + `./50kW_PMM/pmsm_machine.geo:` consists of the source code which generates one quarter
 of the cross-section of a surface mounted permanent magnet (SMPM) machine. The air-gap region is divided
 into three layers; the middle layer could be utilized for the rotation.
+
+## Cage induction machine
++ `./XXkW/femm_machine.geo:` consists of the source code which generates one quarter
+of the cross-section of an induction machine. The air-gap region is divided
+into three layers; the middle layer could be utilized for the rotation.
